@@ -15,11 +15,13 @@ SECRET_KEY = 'django-insecure-$00ijy(q1qjcuja+43wsl3(hh3d#125^r8l43s)6=zx@w_(2tx
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.gitpod.io"
+]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,13 +40,15 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default auth backend
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth backend
 ]
-ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email instead of username
+
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Use email instead of username
+ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Enforce email verification
-ACCOUNT_SIGNUP_REDIRECT_URL = '/'  # Redirect after signup
-ACCOUNT_LOGIN_REDIRECT_URL = '/'  # Redirect after login
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # Enforce email verification
+# ACCOUNT_SIGNUP_REDIRECT_URL = '/logout'  # Redirect after signup
+# ACCOUNT_LOGIN_REDIRECT_URL = '/'  # Redirect after login
+# ACCOUNT_LOGOUT_REDIRECT_URL = '/'  # Redirect after logout
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -54,6 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'edugen.urls'
@@ -145,3 +151,42 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'neoformation14@gmail.com'
 EMAIL_HOST_PASSWORD = 'bdqy cpvt jmet uxvg'
+
+# JAZZMIN
+
+JAZZMIN_SETTINGS = {
+    # Branding & Identity
+    "site_title": "EduGen Admin",
+    "site_header": "EduGen",
+    "site_brand": "EduGen Admin",
+    "welcome_sign": "Welcome to EduGen Admin Panel",
+    "copyright": "EduGen - All Rights Reserved © 2025",
+    
+    # (Optional) Add a site logo if available
+    "site_logo": "../static/assets/img/favicon.png",  
+
+    # Sidebar and Menu Enhancements
+    "order_with_respect_to": ["core", "userauths", "transactions", "addon", "blog"],
+
+    # Allauth Integration (for managing users)
+    "topmenu_links": [
+        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "User Accounts", "url": "/admin/auth/user/", "permissions": ["auth.view_user"]},
+        {"name": "Manage Users (Allauth)", "url": "/accounts/", "new_window": True},
+        {"name": "Website", "url": "/", "new_window": True},
+    ],
+
+    # User Menu Enhancements
+    "usermenu_links": [
+        {"name": "Profile", "url": "/accounts/profile/", "new_window": False},
+        {"name": "Logout", "url": "/accounts/logout/", "new_window": False},
+    ],
+
+    # UI Customizations for better usability
+    "navigation_expanded": False,  # Keep sidebar collapsed by default
+    "show_ui_builder": False,  # Hide UI Builder in Jazzmin
+    "changeform_format": "collapsible",  # Use collapsible form layout
+
+    # Theme Customization (change colors)
+    "theme": "darkly",  # Available themes: cerulean, cosmo, darkly, flatly, journal, lumen, lux, materia, minty, pulse, sandstone, simplex, slate, solar, spacelab, superhero, united, yeti
+}

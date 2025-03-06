@@ -105,7 +105,19 @@
                             <a href="cart.html"><i class="fa-regular fa-cart-shopping"></i></a>
                             <span class="number">0</span>
                         </div>
-                        <a href="contact.html" class="ed-primary-btn header-btn">Get a quote <i class="fa-sharp fa-regular fa-arrow-right"></i></a>
+                        {% comment %} <a href="contact.html" class="ed-primary-btn header-btn">Get a quote <i class="fa-sharp fa-regular fa-arrow-right"></i></a> {% endcomment %}
+                        {% if request.user.is_authenticated %}
+                        <form method="post" action="{% url 'account_logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="ed-primary-btn header-btn">
+                                {{ request.user.username }} <i class="fa-sharp fa-regular fa-arrow-right"></i>
+                            </button>
+                        </form>
+                        
+                        {% else %}
+                         <a href="{% url 'account_signup' %}" class="ed-primary-btn header-btn">Sign Up</a>
+                        {% endif %}
+
                         <div class="header-logo d-none d-lg-none">
                             <a href="index.html">
                                 <img src="../static/assets/img/logo/logo-1.png" alt="Logo">
