@@ -1,0 +1,5 @@
+-using allauths package to handle user account
+    Install Django Allauth
+    Add Allauth to Installed Apps
+    Configure Allauth in settings.py
+    Include Allauth URLs
